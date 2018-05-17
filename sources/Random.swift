@@ -8,7 +8,7 @@
 
 import Foundation
 #if os(Linux)
-  import SwiftShims
+  import ClibBSD
 #endif
 
 
@@ -28,7 +28,7 @@ extension BigUInt {
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: byteCount)
       #if os(Linux)
         for i in 0..<byteCount {
-          buffer[i] = UInt8(_swift_stdlib_cxx11_mt19937_uniform(UInt32(UInt8.max)))
+          buffer[i] = UInt8(arc4random_uniform(UInt32(UInt8.max)))
         }
       #else
         arc4random_buf(buffer, byteCount)
